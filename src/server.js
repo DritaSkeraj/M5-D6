@@ -2,6 +2,7 @@ const express = require("express")
 const listEndpoints = require("express-list-endpoints")
 const { join } = require("path")
 const cors = require("cors")
+const cardsRouter = require("./services/cards")
 const productsRouter = require("./services/products")
 const reviewsRouter = require("./services/reviews")
 const {
@@ -26,6 +27,7 @@ server.use(express.json())
 server.use(loggerMiddleware)
 server.use(express.static(publicFolderPath))
 
+server.use("/cards", cardsRouter)
 server.use("/products", productsRouter)
 server.use("/reviews", reviewsRouter)
 
