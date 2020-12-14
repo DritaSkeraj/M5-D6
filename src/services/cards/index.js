@@ -7,6 +7,7 @@ const { check, validationResult } = require("express-validator");
 
 const router = express.Router();
 const cardsFilePath = path.join(__dirname, "cards.json");
+const productsFilePath = path.join(__dirname, "../products/products.json")
 
 router.get("/", async (req, res, next) => {
   try {
@@ -57,10 +58,14 @@ router.post(
         cards.push({
           ...req.body,
           createdAt: new Date(),
+          ownerId: uniqid(),
           _id: uniqid(),
           products: [],
+          total: 0
         });
         await writeDB(cardsFilePath, cards);
+
+
         res.status(201).send();
       }
     } catch (error) {
@@ -79,7 +84,7 @@ router.get("/:cardId", async (req, res, next) => {
       )
   
       if (cardFound) {
-        res.send(cardFound.products)
+        res.send(cardFound)
       } else {
         const error = new Error()
         error.httpStatusCode = 404
@@ -100,13 +105,18 @@ router.get("/:cardId", async (req, res, next) => {
         const cardIndex = cards.findIndex(
           card => card._id === req.params.cardId
         )
+
         if (cardIndex !== -1) {
           // product found
+          let myTotal = await cards[cardIndex].total;
+
+          console.log("card found")
           cards[cardIndex].products.push({
-            _id: uniqid(),
-            createdAt: new Date(),
+            _id: req.params.productId,
+            createdAt: new Date()
           })
-          await writeDb(cardsFilePath, cards)
+          cards[cardIndex].total = ++myTotal;
+          await writeDB(cardsFilePath, cards)
           res.status(201).send(cards)
         } else {
           // product not found
@@ -130,13 +140,16 @@ router.get("/:cardId", async (req, res, next) => {
         const cardIndex = cards.findIndex(
           card => card._id === req.params.cardId
         )
-  
+        let total = cards[cardIndex].total;
+    
         if (cardIndex !== -1) {
           cards[cardIndex].products = cards[cardIndex].products.filter(
-            product => product._pid !== req.params.productId
+            product => product._id !== req.params.productId
           )
-  
-          await writeDB(cardsFilePath, products)
+          let intTotal = parseInt(total)
+          cards[cardIndex].total = --intTotal;
+            console.log("total::::::::", cards[cardIndex].total)
+          await writeDB(cardsFilePath, cards)
           res.send(cards)
         } else {
         }

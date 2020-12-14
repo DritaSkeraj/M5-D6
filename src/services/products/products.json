@@ -18,18 +18,18 @@
     "imageURL": "http://localhost:3001//img/products/bp0idw2zckim3ygky.jpg"
   },
   {
-    "name": "Strive School",
-    "description": "dasdsadasdas",
-    "brand": "12333",
-    "price": "1233",
+    "name": "Crime And Punishment",
+    "description": "must read",
+    "brand": "cool brand",
+    "price": "12",
     "_id": "bp0idw2o4kim4974s",
     "createdAt": "2020-12-12T19:52:47.451Z",
     "imageURL": "http://localhost:3001//img/products/bp0idw2o4kim4974s.jpg"
   },
   {
-    "name": "Strive School",
-    "description": "dsadas",
-    "brand": "dsadas",
+    "name": "tomato",
+    "description": "best quality",
+    "brand": "home made",
     "price": "133",
     "_id": "bp0idw6mgkim4cd9e",
     "createdAt": "2020-12-12T19:55:15.361Z",
